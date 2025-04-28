@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+sqlite3
+smtplib
+email
+qrcode
+Pillow
+python-docx
+xlsxwriter
