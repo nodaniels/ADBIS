@@ -8,14 +8,26 @@ from email.mime.multipart import MIMEMultipart
 st.set_page_config(layout="wide")
 
 def main():
-
     with st.sidebar:
-        st.page_link('main.py', label='Guide')
-        st.page_link('pages/1_createsample.py', label='🔵 Create Sample')
-        st.page_link('pages/2_generateqr.py', label='🔵 Generate QR Code')
-        st.page_link('pages/3_shippingstatus.py', label='🚐 Shipping Status')
-        st.page_link('pages/4_insertresults.py', label='🔴 Insert Results')
-        st.page_link('pages/5_library.py', label='📚 Library')
+        # Always show the Guide link at the top
+        st.page_link('main.py', label='🏠 Guide')
+        
+        # Check location from session state
+        if 'location' in st.session_state:
+            if st.session_state.location == "Bagsværd 🔵":
+                st.page_link('pages/1_createsample.py', label='🔵 Create Sample')
+                st.page_link('pages/2_generateqr.py', label='🔵 Generate QR Code')
+                st.page_link('pages/3_shippingstatus.py', label='🚐 Shipping Status')
+                st.page_link('pages/5_library.py', label='📚 Library')
+            
+            elif st.session_state.location == "Måløv 🔴":
+                st.page_link('pages/3_shippingstatus.py', label='🚐 Shipping Status')
+                st.page_link('pages/4_insertresults.py', label='🔴 Insert Results')
+                st.page_link('pages/5_library.py', label='📚 Library')
+        else:
+            st.warning("Please select your location on the main page")
+            st.page_link('main.py', label='Go to main page')
+
 
 
 # Page header
