@@ -8,14 +8,30 @@ def handle_confirm():
 def main():
     # Check if the location is already stored in session state
     if "location" not in st.session_state:
-        st.title("Welcome to the Chemist App")
-        # Store selection in temporary state variable
-        st.session_state.temp_location = st.radio(
-            "Select your location:", 
-            ["Måløv 🔴", "Bagsværd 🔵"],
-            key="location_radio"
-        )
-        st.button("Confirm", on_click=handle_confirm)
+        st.title("Welcome to PEPTALK")
+        st.caption("Please select your location to proceed:")
+        
+        col1, col2 = st.columns(2)
+        
+        # Create clickable buttons styled as colored fields
+        with col1:
+            if st.button("Måløv", 
+                        use_container_width=True,
+                        type="secondary",
+                        help="Click to select Måløv"):
+                st.session_state.location = "Måløv 🔴"
+                st.session_state.confirmed = True
+                st.rerun()
+                
+        with col2:
+            if st.button("Bagsværd",
+                        use_container_width=True,
+                        type="secondary",
+                        help="Click to select Bagsværd"):
+                st.session_state.location = "Bagsværd 🔵"
+                st.session_state.confirmed = True
+                st.rerun()
+
     elif "confirmed" in st.session_state and st.session_state.confirmed:
         # Step 2: Filter pages and guide based on stored location
         location = st.session_state.location
@@ -43,8 +59,6 @@ def main():
             st.text("2. Open the Generate QR Code page from the sidebar and follow the instructions")
             st.text("3. Pack the samples and send them to Måløv")
             st.text("4. Open the Shipping Status page from the sidebar and update the project to 'Shipped'")
-
-            # Automatically confirm the location if it's already selected but not confirmed
 if "location" in st.session_state and "confirmed" not in st.session_state:
     st.session_state.confirmed = True
 
