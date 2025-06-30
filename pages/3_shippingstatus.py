@@ -128,14 +128,28 @@ request_names = get_request_names()
 if request_names:
     selected_request = st.selectbox("Select a request:", request_names)
 
-    # Radio buttons for setting the status
-    status = st.radio("Set the status for the request:", ["Shipped", "Received"])
+    # Determine status based on location, but do not show info/warning to user
+    status = None
+    if 'location' in st.session_state:
+        if st.session_state.location == "Måløv 🔴":
+            status = "Received"
+        elif st.session_state.location == "Bagsværd 🔵":
+            status = "Shipped"
+    # No user-facing info or warnings here
 
     # Input field for recipient email
     recipient_email = st.text_input("Enter the recipient's email address:", value="", max_chars=100)
 
+    # Determine the button label based on location
+    button_label = "Confirm Status"
+    if 'location' in st.session_state:
+        if st.session_state.location == "Bagsværd 🔵":
+            button_label = "Confirm status: Shipped"
+        elif st.session_state.location == "Måløv 🔴":
+            button_label = "Confirm status: Received"
+
     # Save the status when the button is clicked
-    if st.button("Confirm Status"):
+    if st.button(button_label):
         if not recipient_email:
             st.error("You must enter an email address.")
         else:
